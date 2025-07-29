@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gemini Study Assistant</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="container">
+    <aside class="sidebar">
+      <h2>📚 Study Modes</h2>
+      <select id="modeSelect">
+        <option value="summarize">Summarize</option>
+        <option value="mcq">Make MCQs</option>
+        <option value="explain">Explain like I’m 10</option>
+        <option value="examprep">Exam Prep</option>
+      </select>
+      <h3>🕘 History</h3>
+      <ul id="history"></ul>
+    </aside>
+
+    <main class="main">
+      <h1>✨ Gemini Study Assistant</h1>
+
+      <form id="promptForm">
+        <label for="fileInput">📎 Choose a file:</label>
+        <input type="file" id="fileInput" accept=".txt,.pdf,.doc,.docx,.md,.rtf" />
+
+        <label for="fileType">📄 What type of file is this?</label>
+        <select id="fileType">
+          <option value="syllabus">Syllabus</option>
+          <option value="book" selected>Book/Material</option>
+        </select>
+
+        <label for="prompt">🧠 Enter your prompt:</label>
+        <textarea id="prompt" rows="4" placeholder="Ask me anything..."></textarea>
+
+        <div id="examPrepInputs" class="hidden">
+          <label for="examTime">📅 Time left for exam (in days):</label>
+          <input type="number" id="examTime" placeholder="e.g. 10" />
+
+          <label for="studyHours">🕒 Hours you can study per day:</label>
+          <input type="number" id="studyHours" placeholder="e.g. 6" min="1" max="24" />
+
+          <label for="syllabus">📘 Paste syllabus:</label>
+          <textarea id="syllabus" rows="3" placeholder="Topics covered in exam..."></textarea>
+        </div>
+
+        <button type="submit">🚀 Submit</button>
+      </form>
+
+      <div class="response-container">
+        <h2>🤖 Response:</h2>
+        <div id="response"></div>
+      </div>
+    </main>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="script.js"></script>
+  <script>
+    document.getElementById('modeSelect').addEventListener('change', () => {
+      const show = document.getElementById('modeSelect').value === 'examprep';
+      document.getElementById('examPrepInputs').classList.toggle('hidden', !show);
+    });
+  </script>
+</body>
+</html>
