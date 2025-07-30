@@ -1,8 +1,9 @@
-Flask
-Flask-CORS
-python-dotenv
-google-generativeai  # Gemini
-PyMuPDF
-python-docx
+flask
+flask-cors
+google-generativeai
+pillow
 pytesseract
+python-dotenv
 mysql-connector-python
+PyMuPDF
+gunicorn
