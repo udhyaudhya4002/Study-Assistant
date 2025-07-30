@@ -1,8 +1,0 @@
-Flask
-Flask-CORS
-python-dotenv
-google-generativeai  # Gemini
-PyMuPDF
-python-docx
-pytesseract
-mysql-connector-python
