@@ -7,3 +7,5 @@ python-dotenv
 mysql-connector-python
 PyMuPDF
 gunicorn
+Flask
+
