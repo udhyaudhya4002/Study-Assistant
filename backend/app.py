@@ -26,12 +26,13 @@ genai.configure(api_key=os.getenv("google_api"))
 # MySQL configuration
 # ------------------------
 db_config = {
-    "host": os.getenv("MYSQL_HOST", "localhost"),
-    "user": os.getenv("MYSQL_USER", "root"),
-    "password": os.getenv("MYSQL_PASSWORD", ""),
-    "database": os.getenv("MYSQL_DATABASE", "gemini_study_assistant"),
+    "host": os.getenv("MYSQL_HOST"),
+    "user": os.getenv("MYSQL_USER"),
+    "password": os.getenv("MYSQL_PASSWORD"),
+    "database": os.getenv("MYSQL_DATABASE"),
+    "port": int(os.getenv("MYSQL_PORT", 3306))
 }
-print("DB Config:", db_config)
+
 
 # ------------------------
 # Save chat to database
