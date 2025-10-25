@@ -10,21 +10,20 @@ import mysql.connector
 import os
 from datetime import datetime
 
-# ------------------------
 # Flask setup - serve frontend
-# ------------------------
+
 app = Flask(__name__, static_folder="../frontend", static_url_path="")
 CORS(app)
 
-# ------------------------
+
 # Load environment variables
-# ------------------------
+
 load_dotenv()
 genai.configure(api_key=os.getenv("google_api"))
 
-# ------------------------
+
 # MySQL configuration
-# ------------------------
+
 db_config = {
     "host": os.getenv("MYSQL_HOST"),
     "user": os.getenv("MYSQL_USER"),
@@ -33,10 +32,8 @@ db_config = {
     "port": int(os.getenv("MYSQL_PORT", 3306))
 }
 
-
-# ------------------------
 # Save chat to database
-# ------------------------
+
 def save_chat_to_db(mode, prompt, response, context):
     try:
         conn = mysql.connector.connect(**db_config)
@@ -61,9 +58,8 @@ def save_chat_to_db(mode, prompt, response, context):
     except Exception as e:
         print("❌ Failed to save chat history:", e)
 
-# ------------------------
+
 # Extract text from file
-# ------------------------
 def extract_text(file):
     filetype = mimetypes.guess_type(file.filename)[0]
     if filetype == "application/pdf":
@@ -88,9 +84,8 @@ def extract_text(file):
     ]
     return "\n".join(cleaned_lines) if cleaned_lines else ""
 
-# ------------------------
 # Process request
-# ------------------------
+
 @app.route('/process', methods=['POST'])
 def process():
     prompt = request.form.get('prompt', '').strip()
@@ -146,9 +141,9 @@ def process():
     except Exception as e:
         return jsonify({'response': f"❌ Error from Gemini: {str(e)}"}), 500
 
-# ------------------------
+
 # Clarify MCQ Doubt
-# ------------------------
+
 @app.route('/clarify', methods=['POST'])
 def clarify_mcq_doubt():
     mcq_question = request.form.get('question', '').strip()
@@ -176,9 +171,9 @@ def clarify_mcq_doubt():
     except Exception as e:
         return jsonify({'response': f"❌ Gemini Error: {str(e)}"}), 500
 
-# ------------------------
+
 # Chat history
-# ------------------------
+
 @app.route('/history', methods=['GET'])
 def get_history():
     try:
@@ -197,9 +192,9 @@ def get_history():
         print("❌ Error fetching history:", e)
         return jsonify({'history': []})
 
-# ------------------------
+
 # Delete chat
-# ------------------------
+
 @app.route('/delete', methods=['POST'])
 def delete_chat():
     chat_id = request.json.get('id')
@@ -215,9 +210,9 @@ def delete_chat():
         print("❌ Failed to delete chat:", e)
         return jsonify({'success': False, 'error': str(e)}), 500
 
-# ------------------------
+
 # Serve frontend
-# ------------------------
+
 @app.route("/")
 def serve_index():
     return send_from_directory(app.static_folder, "index.html")
@@ -226,8 +221,7 @@ def serve_index():
 def serve_static_files(path):
     return send_from_directory(app.static_folder, path)
 
-# ------------------------
 # Run the app
-# ------------------------
+
 if __name__ == '__main__':
     app.run(debug=False, host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
